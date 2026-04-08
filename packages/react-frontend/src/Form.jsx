@@ -19,7 +19,7 @@ export default function Form(props){
 
     return (
         <form>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{padding: 10}}>Name</label>
             <input
                 type= "text"
                 value= {person.name}
@@ -27,7 +27,7 @@ export default function Form(props){
                 id="name"
                 onChange={handleChange}
             />
-            <label htmlFor="job"> Job</label>
+            <label htmlFor="job" style = {{padding: 10}}> Job</label>
             <input
                 type="text"
                 value ={person.job}
