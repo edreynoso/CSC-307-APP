@@ -7,7 +7,7 @@ export default function MyApp(){
   const [characters, setCharacters] = useState([]);
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((index, i) => {
+    const updated = characters.filter((character, i) => {
       return index !== i
     });
 
@@ -15,7 +15,7 @@ export default function MyApp(){
   }
 
   function updateList(person){
-    setCharacters([...characters], person);
+    setCharacters([...characters, person]);
   }
 
   return (

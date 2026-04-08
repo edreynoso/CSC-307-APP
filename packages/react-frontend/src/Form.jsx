@@ -1,4 +1,4 @@
-import react, {useState} from "react";
+import React, {useState} from "react";
 
 export default function Form(props){
     const [person, setPerson] = useState({
@@ -18,7 +18,7 @@ export default function Form(props){
     }
 
     return (
-        <Form>
+        <form>
             <label htmlFor="name">Name</label>
             <input
                 type= "text"
@@ -36,7 +36,7 @@ export default function Form(props){
                 onChange={handleChange}
             />
             <input type="button" value="Submit" onClick={submitForm} />
-        </Form> 
+        </form> 
     );
 }
 

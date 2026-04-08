@@ -1,5 +1,3 @@
-import React from "react";
-
 
 function TableHeader() {
   return (
@@ -7,6 +5,7 @@ function TableHeader() {
       <tr>
         <th>Name</th>
         <th>Job</th>
+        <th>Delete</th>
       </tr>
     </thead>
   );
@@ -36,7 +35,10 @@ export default function Table(props){
     return (
         <table>
             <TableHeader/>
-            <TableBody characterData = {props.characterData} removeCharacter={props.removeCharacter}/>
+            <TableBody 
+              characterData = {props.characterData} 
+              removeCharacter={props.removeCharacter}
+            />
         </table>
     );
 }
