@@ -12,7 +12,8 @@
     "start": "npm run dev --workspace=react-frontend"
   },
 "workspaces": [
-  "packages/*"
+  "packages/react-frontend",
+  "packages/express-backend"
 ]
 
 }

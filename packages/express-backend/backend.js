@@ -35,9 +35,9 @@ const port = 8000;
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Hello world!");
-});
+const findUsersByNameAndJob = (name, job) => {
+    return users["users_list"].filter((user) => user['name'] === name && user['job'] === job);
+};
 
 const findUserByName = (name) => {
     return users["users_list"].filter((user) => user['name'] === name);
@@ -47,10 +47,44 @@ const findUserById = (id) => {
     return users['users_list'].find((user => user['id'] === id));
 };
 
+const deleteUserById = (id) => {
+    users["users_list"] = users["users_list"].filter((user) => user["id"] !== id);
+};
+
 const addUser = (user) => {
     users["users_list"].push(user);
     return user;
 };
+
+//Root API route
+
+app.get("/", (req, res) => {
+    res.send("Hello world!");
+});
+
+//Fetch all users or users by name or name and job
+
+app.get("/users", (req,res) => {
+    const name = req.query.name;
+    const job = req.query.job;
+
+    if(name != undefined){
+        if (job !== undefined){
+            let result = findUsersByNameAndJob(name, job);
+            result = { users_list: result};
+            res.status(200).send(result);
+        }
+        else{
+            let result = findUserByName(name);
+            result = { users_list: result };
+            res.send(result)
+        }
+    }else{
+        res.send(users);
+    }
+});
+
+//Fetch user by ID
 
 app.get("/users/:id", (req,res) => {
     const id = req.params['id'];
@@ -63,28 +97,15 @@ app.get("/users/:id", (req,res) => {
     }
 });
 
-app.get("/users", (req,res) => {
-    const name = req.query.name;
-
-    if(name != undefined){
-        let result = findUserByName(name);
-        result = { users_list: result };
-        res.send(result)
-    }else{
-        res.send(users);
-    }
-});
+//Add a new user
 
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    console.log(userToAdd);
     addUser(userToAdd);
     res.send("User successfully added!");
 });
 
-const deleteUserById = (id) => {
-    users["users_list"] = users["users_list"].filter((user) => user["id"] !== id);
-};
+//Delete a user via ID
 
 app.delete('/users/:id', (req,res) => {
     const id = req.params['id'];
@@ -92,26 +113,9 @@ app.delete('/users/:id', (req,res) => {
     if (id === undefined){
         res.status(401).send("Could not remove this user");
     }else{
+        const user = findUserById(id);
         deleteUserById(id);
-        console.log(users["users_list"]);
-        res.status(200).send("User successfully deleted");
-    }
-});
-
-const findUsersByNameAndJob = (name, job) => {
-    return users["users_list"].filter((user) => user['name'] === name && user['job'] === job);
-};
-
-app.get('/users', (req,res) => {
-    const name = req.query.name;
-    const job = req.query.job;
-
-    let result = findUsersByNameAndJob(name, job);
-
-    if (result !== undefined){
-        res.status(200).send(result);
-    }else{
-        res.status(404).send("Could not find any users");
+        res.status(200).send(`The user: ${id} has been successfully deleted.`);
     }
 });
 
